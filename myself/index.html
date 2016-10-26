@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="utf-8" />
+		<title>个人前端资源</title>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<script  src="js/angular.js" ></script>
+		<script  src="js/jquery-3.1.0.min.js" ></script>
+		<script  src="js/index.js" ></script>
+		<script>
+		angular.module("myapp", []);
+		angular.module("myapp").controller("ctrlMain", function($scope, $http){
+		    $scope.data = [];
+		    $http.get("data/ngnav.json").success(function(response){
+		        $scope.data = response;
+		    });
+		    
+		    $scope.labelColor = function(){
+		        var colors = ["label-success", "label-info", "label-default", "label-primary", "label-warning", "label-danger"];
+//		        var a = parseInt(Math.random() * colors.length);
+//		        alert(index);
+		        return colors[3];
+		    };
+			new WishWall();
+		});
+		</script>
+	</head>
+	<body ng-controller="ctrlMain">
+	    <h1 class="header">我的前端资源笔记</h1>
+	    <div class="main container-fluid">
+    	    <div class="col-xs-3">
+				<ul class="nav">
+					<li ng-repeat="data in data"><a href="#{{data.index}}">{{data.category}}</a></li>
+				</ul>
+			</div>
+    	    <div class="col-xs-9" style="float: right">
+        	    <div ng-repeat="block in data" class="row" id="{{block.index}}">
+        	        <h2><span class="label" ng-class="labelColor()"><span class="glyphicon glyphicon-send"></span>{{block.category}}<span class="badge" id="badge">{{block.items.length}}</span></span></h2>
+        	        <!--<h2><span class="alert alert-info">{{block.category}}</span></h2>-->
+        	        <!--<h3><span class="well well-sm">{{block.category}}</span></h3>-->
+        	        <ul>
+        	            <li ng-repeat="item in block.items" class="col-xs-3 well well-sm" style="margin-left: 1em">
+        	                <h4><a ng-href="{{item.url}}" target="_blank" class="name">{{item.title}} <p class="image" ng-show="item.img"><img src="{{item.img}}"></p></a></h4>
+        	                <p>{{item.desc}}</p>
+        	            </li>
+        	        </ul>
+        	    </div>
+    	    </div>
+	    </div>
+	<div class="modal-footer" id="footer">
+		<div class="inputbox">
+			<input  class="text" type="" name="">
+		</div>
+	</div>
+	</body>
+</html>
